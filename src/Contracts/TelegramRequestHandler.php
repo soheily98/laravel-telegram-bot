@@ -16,6 +16,6 @@ abstract class TelegramRequestHandler
 
     public function matches(TelegramRequest $request): bool
     {
-        return preg_match($this->pattern, $request->message->text);
+        return preg_match($this->pattern, $request->update->message->text);
     }
 }

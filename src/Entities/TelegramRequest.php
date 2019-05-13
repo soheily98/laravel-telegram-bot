@@ -2,20 +2,10 @@
 
 namespace SoheilY98\TelegramBot\Entities;
 
+use SoheilY98\TelegramBot\Entities\Telegram\Update;
+
 class TelegramRequest
 {
-    /** @var integer $update_id */
-    public $update_id;
-
-    /** @var Message $message */
-    public $message;
-}
-
-class Message
-{
-    /** @var integer $message_id */
-    public $message_id;
-
-    /** @var string $text */
-    public $text;
+    /** @var Update $update */
+    public $update;
 }
