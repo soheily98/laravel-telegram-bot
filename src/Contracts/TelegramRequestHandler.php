@@ -10,7 +10,18 @@ abstract class TelegramRequestHandler
     protected $pattern;
 
     /** @var $matches array */
-    private $matches;
+    private $matches = [];
+
+    /** @var $bot TelegramBotService */
+    private $bot;
+
+    /**
+     * @param TelegramBotService $bot
+     */
+    public function setBot(TelegramBotService $bot)
+    {
+        $this->bot = $bot;
+    }
 
     abstract public function handle(TelegramRequest $request);
 

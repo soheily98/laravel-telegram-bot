@@ -9,18 +9,25 @@ use SoheilY98\TelegramBot\Entities\TelegramRequest;
 
 class TelegramBotServiceImpl implements TelegramBotService
 {
+    /** @var TelegramRequest $telegramRequest */
+    private $telegramRequest;
+
     public function request(): TelegramRequest
     {
-        $update = new Update();
+        if (!isset($this->telegramRequest)) {
+            $update = new Update();
 
-        $message = new Message();
-        $message->text = "ABC";
+            $message = new Message();
+            $message->text = "ABC";
 
-        $update->message = $message;
+            $update->message = $message;
 
-        $telegramRequest = new TelegramRequest();
-        $telegramRequest->update = $update;
+            $telegramRequest = new TelegramRequest();
+            $telegramRequest->update = $update;
 
-        return $telegramRequest;
+            $this->telegramRequest = $telegramRequest;
+        }
+
+        return $this->telegramRequest;
     }
 }

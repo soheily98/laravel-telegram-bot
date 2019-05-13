@@ -2,16 +2,12 @@
 
 namespace SoheilY98\TelegramBot\Controllers;
 
-use Illuminate\Support\Facades\Request;
 use SoheilY98\TelegramBot\Contracts\TelegramBotService;
 use SoheilY98\TelegramBot\Contracts\TelegramRequestHandler;
 
 class TelegramController
 {
-    /** @var array $handlers */
-    private $handlers = [];
-
-    public function hook(Request $request, TelegramBotService $botService)
+    public function hook(TelegramBotService $botService)
     {
         $telegramRequest = $botService->request();
 
@@ -25,10 +21,9 @@ class TelegramController
             $handlerClass = new $className();
 
             if ($handlerClass->matches($telegramRequest)) {
-                return "Found.";
+                $handlerClass->setBot($botService);
+                return $handlerClass->handle($telegramRequest);
             }
-
-            $this->handlers[] = $handlerClass;
         }
 
         return "Not Found.";
