@@ -3,10 +3,12 @@
 namespace %NAMESPACE%;
 
 use SoheilY98\TelegramBot\Contracts\TelegramRequestHandler;
-use SoheilY98\TelegramBot\Contracts\TelegramRequest;
+use SoheilY98\TelegramBot\Entities\TelegramRequest;
 
 class %CLASS_NAME% extends TelegramRequestHandler
 {
+    public $pattern = '//is';
+
     public function handle(TelegramRequest $request)
     {
         // TODO: Implement handle() method.
