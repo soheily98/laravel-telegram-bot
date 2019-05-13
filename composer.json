@@ -1,5 +1,6 @@
 {
     "name": "soheily98/laravel-telegram-bot",
+    "description": "",
     "type": "library",
     "authors": [
         {
@@ -7,5 +8,19 @@
             "email": "soheil_y98@icloud.com"
         }
     ],
-    "require": {}
+    "require": {
+        "illuminate/support": "^5.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "SoheilY98\\TelegramBot\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SoheilY98\\TelegramBot\\Providers\\TelegramBotServiceProvider"
+            ]
+        }
+    }
 }
