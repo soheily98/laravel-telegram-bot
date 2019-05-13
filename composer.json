@@ -1,0 +1,11 @@
+{
+    "name": "soheily98/laravel-telegram-bot",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Soheil Yahyaee",
+            "email": "soheil_y98@icloud.com"
+        }
+    ],
+    "require": {}
+}
