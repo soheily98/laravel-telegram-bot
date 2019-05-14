@@ -16,7 +16,7 @@ class TelegramBotServiceProvider extends ServiceProvider
         $this->publishes(
             [
                 $configPath => config_path('telegrambot.php'),
-                __DIR__ . '/../Telegram/Handlers/' => app_path('/Telegram/Handlers/')
+                __DIR__ . '/../../assets/Telegram/Handlers/' => app_path('/Telegram/Handlers/')
             ]
         );
 
