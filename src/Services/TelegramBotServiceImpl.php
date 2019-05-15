@@ -2,32 +2,86 @@
 
 namespace SoheilY98\TelegramBot\Services;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\Log;
+use SoheilY98\TelegramBot\Contracts\BotRequestHandler;
 use SoheilY98\TelegramBot\Contracts\TelegramBotService;
-use SoheilY98\TelegramBot\Entities\Telegram\Message;
-use SoheilY98\TelegramBot\Entities\Telegram\Update;
-use SoheilY98\TelegramBot\Entities\TelegramRequest;
+use SoheilY98\TelegramBot\Entities\BotRequest;
+use SoheilY98\TelegramBot\Entities\BotResponse;
 
 class TelegramBotServiceImpl implements TelegramBotService
 {
-    /** @var TelegramRequest $telegramRequest */
-    private $telegramRequest;
+    /**
+     * @var array $handlers
+     */
+    private $handlers = [];
 
-    public function request(): TelegramRequest
+    /**
+     * @var Client $client
+     */
+    private $client;
+
+    /**
+     * @var string $baseUrl
+     */
+    private $baseUrl;
+
+    /**
+     * TelegramBotServiceImpl constructor.
+     */
+    public function __construct()
     {
-        if (!isset($this->telegramRequest)) {
-            $update = new Update();
+        $this->client = new Client();
+        $this->baseUrl = "https://api.telegram.org/bot" . config('telegrambot.token') . "/";
 
-            $message = new Message();
-            $message->text = "ABC";
+        $this->registerHandlers();
+    }
 
-            $update->message = $message;
+    public function handle(BotRequest $botRequest): BotResponse
+    {
+        /** @var BotRequestHandler $handler */
 
-            $telegramRequest = new TelegramRequest();
-            $telegramRequest->update = $update;
-
-            $this->telegramRequest = $telegramRequest;
+        foreach ($this->handlers as $handler) {
+            if ($handler->matches($botRequest)) {
+                return $handler->handle($botRequest);
+            }
         }
 
-        return $this->telegramRequest;
+        return new BotResponse('sendMessage', [
+            'chat_id' => $botRequest->payload->message->chat->id,
+            'text' => 'no match'
+        ]);
+    }
+
+    function __call($name, $arguments)
+    {
+        return $this->makeRequest($name, $arguments[0]);
+    }
+
+    function makeRequest($method, $arguments)
+    {
+        $response = $this->client->post($this->baseUrl . $method, [
+            'form_params' => $arguments
+        ]);
+
+        $json = json_decode($response->getBody());
+
+        return $json;
+    }
+
+    private function registerHandlers()
+    {
+        foreach (glob(app_path('/Telegram/Handlers/') . '*.php') as $filename) {
+            $className = explode('/', $filename);
+            $className = end($className);
+            $className = explode(".", $className)[0];
+            $className = app()->getNamespace() . "Telegram\Handlers\\" . $className;
+
+            /** @var BotRequestHandler $handlerClass */
+            $handlerClass = new $className();
+
+            $this->handlers[] = $handlerClass;
+        }
     }
 }

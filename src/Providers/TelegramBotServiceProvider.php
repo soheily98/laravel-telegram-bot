@@ -4,6 +4,7 @@ namespace SoheilY98\TelegramBot\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use SoheilY98\TelegramBot\Commands\MakeHandlerCommand;
+use SoheilY98\TelegramBot\Commands\TelegramPollCommand;
 use SoheilY98\TelegramBot\Contracts\TelegramBotService;
 use SoheilY98\TelegramBot\Services\TelegramBotServiceImpl;
 
@@ -29,7 +30,8 @@ class TelegramBotServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                MakeHandlerCommand::class
+                MakeHandlerCommand::class,
+                TelegramPollCommand::class,
             ]);
         }
     }

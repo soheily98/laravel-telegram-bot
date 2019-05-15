@@ -3,7 +3,7 @@
 namespace SoheilY98\TelegramBot\Controllers;
 
 use SoheilY98\TelegramBot\Contracts\TelegramBotService;
-use SoheilY98\TelegramBot\Contracts\TelegramRequestHandler;
+use SoheilY98\TelegramBot\Contracts\BotRequestHandler;
 
 class TelegramController
 {
@@ -17,7 +17,7 @@ class TelegramController
             $className = explode(".", $className)[0];
             $className = app()->getNamespace() . "Telegram\Handlers\\" . $className;
 
-            /** @var TelegramRequestHandler $handlerClass */
+            /** @var BotRequestHandler $handlerClass */
             $handlerClass = new $className();
 
             if ($handlerClass->matches($telegramRequest)) {
