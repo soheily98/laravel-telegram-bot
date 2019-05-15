@@ -3,8 +3,6 @@
 namespace SoheilY98\TelegramBot\Services;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use Illuminate\Support\Facades\Log;
 use SoheilY98\TelegramBot\Contracts\BotRequestHandler;
 use SoheilY98\TelegramBot\Contracts\TelegramBotService;
 use SoheilY98\TelegramBot\Entities\BotRequest;
@@ -32,7 +30,9 @@ class TelegramBotServiceImpl implements TelegramBotService
      */
     public function __construct()
     {
-        $this->client = new Client();
+        $this->client = new Client([
+
+        ]);
         $this->baseUrl = "https://api.telegram.org/bot" . config('telegrambot.token') . "/";
 
         $this->registerHandlers();

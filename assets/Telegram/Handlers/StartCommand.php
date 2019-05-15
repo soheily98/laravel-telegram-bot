@@ -1,14 +1,14 @@
 <?php
 
-namespace %NAMESPACE%;
+namespace App\Telegram\Handlers;
 
 use SoheilY98\TelegramBot\Contracts\BotRequestHandler;
 use SoheilY98\TelegramBot\Entities\BotRequest;
 use SoheilY98\TelegramBot\Entities\BotResponse;
 
-class %CLASS_NAME% extends BotRequestHandler
+class StartCommand extends BotRequestHandler
 {
-    public $pattern = '//is';
+    public $pattern = '/^\/start$/is';
 
     public function handle(BotRequest $botRequest): BotResponse
     {
@@ -16,7 +16,7 @@ class %CLASS_NAME% extends BotRequestHandler
 
         return new BotResponse('sendMessage', [
             'chat_id' => $botRequest->payload->message->from->id,
-            'text' => 'tbh.'
+            'text' => 'Hello!'
         ]);
     }
 }
