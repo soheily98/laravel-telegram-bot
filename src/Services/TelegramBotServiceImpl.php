@@ -30,9 +30,7 @@ class TelegramBotServiceImpl implements TelegramBotService
      */
     public function __construct()
     {
-        $this->client = new Client([
-
-        ]);
+        $this->client = new Client([]);
         $this->baseUrl = "https://api.telegram.org/bot" . config('telegrambot.token') . "/";
 
         $this->registerHandlers();
@@ -54,12 +52,12 @@ class TelegramBotServiceImpl implements TelegramBotService
         ]);
     }
 
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         return $this->makeRequest($name, $arguments[0]);
     }
 
-    function makeRequest($method, $arguments)
+    public function makeRequest($method, $arguments)
     {
         $response = $this->client->post($this->baseUrl . $method, [
             'form_params' => $arguments

@@ -38,7 +38,7 @@ class MakeHandlerCommand extends Command
         if (!file_exists($className)) {
             $file = file_get_contents(__DIR__ . '/../../assets/BaseHandler.tmpl');
             $file = preg_replace('/%CLASS_NAME%/', ucfirst($className), $file);
-            $file = preg_replace('/%NAMESPACE%/', app()->getNamespace() . "Telegram\Handlers" , $file);
+            $file = preg_replace('/%NAMESPACE%/', app()->getNamespace() . "Telegram\Handlers", $file);
             file_put_contents($handlerPath, $file);
         }
     }

@@ -4,7 +4,8 @@ namespace SoheilY98\TelegramBot\Entities;
 
 class BotResponse
 {
-    public $method, $arguments;
+    public $method;
+    public $arguments;
 
     /**
      * BotResponse constructor.
